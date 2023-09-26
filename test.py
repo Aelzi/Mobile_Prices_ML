@@ -5,6 +5,8 @@ import numpy as np
 pipe = pickle.load(open('model.pkl', 'rb'))
 df = pickle.load(open('df.pkl', 'rb'))
 
+rating = st.selectbox('Rating',[1,2,3,4,5])
+
 company = st.selectbox('Brand/Nama HP', df['Nama HP'].unique())
 
 prosesor = st.selectbox('Processor', df['Upd_Processor'].unique())
@@ -26,6 +28,6 @@ total_front_cam = st.selectbox('Total Kamera Depan',[1,2])
 
 
 if st.button('Predict Price'):
-    query = np.array([company,prosesor,ram,rom,baterai,size_back_cam,total_back_cam,size_front_cam,total_front_cam], dtype=object)
-    query = query.reshape(1,9)
+    query = np.array([company,rating,ram,rom,baterai,size_back_cam,total_back_cam,size_front_cam,total_front_cam,prosesor], dtype=object)
+    query = query.reshape(1,10)
     st.title("predicted in Indian Rupee : ₹ " + str(int(np.exp(pipe.predict(query)[0]))))
